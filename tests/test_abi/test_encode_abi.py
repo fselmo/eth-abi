@@ -23,5 +23,10 @@ def test_encode_abi(type_str, python_value, abi_encoding, _):
 
     types = [t.to_type_str() for t in abi_type.components]
 
-    actual = encode_abi(types, python_value)
-    assert actual == abi_encoding
+    with pytest.warns(
+        DeprecationWarning,
+        match="abi.encode_abi\(\) is deprecated and will be removed in version 4.0.0 in favor of "
+              "abi.encode\(\)"
+    ):
+        actual = encode_abi(types, python_value)
+        assert actual == abi_encoding

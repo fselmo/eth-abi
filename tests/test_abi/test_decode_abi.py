@@ -26,8 +26,13 @@ def test_decode_abi(type_str, expected, abi_encoding, _):
 
     types = [t.to_type_str() for t in abi_type.components]
 
-    actual = decode_abi(types, abi_encoding)
-    assert actual == expected
+    with pytest.warns(
+        DeprecationWarning,
+        match="abi.decode_abi\(\) is deprecated and will be removed in version 4.0.0 in favor of "
+              "abi.decode\(\)"
+    ):
+        actual = decode_abi(types, abi_encoding)
+        assert actual == expected
 
 
 def test_decode_abi_empty_data_raises():

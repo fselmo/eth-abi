@@ -1,3 +1,4 @@
+import warnings
 from typing import (
     Any,
     Iterable,
@@ -60,6 +61,12 @@ class ABIEncoder(BaseABICoder):
         :returns: The binary representation of the python value ``arg`` as a
             value of the ABI type ``typ``.
         """
+        warnings.warn(
+            "abi.encode_single() is deprecated and will be removed in version 4.0.0 in favor "
+            "of abi.encode()",
+            category=DeprecationWarning,
+        )
+
         encoder = self._registry.get_encoder(typ)
 
         return encoder(arg)
@@ -77,6 +84,12 @@ class ABIEncoder(BaseABICoder):
         :returns: The head-tail encoded binary representation of the python
             values in ``args`` as values of the ABI types in ``types``.
         """
+        warnings.warn(
+            "abi.encode_abi() is deprecated and will be removed in version 4.0.0 in favor of "
+            "abi.encode()",
+            category=DeprecationWarning,
+        )
+
         encoders = [
             self._registry.get_encoder(type_str)
             for type_str in types
@@ -99,6 +112,11 @@ class ABIEncoder(BaseABICoder):
         :returns: ``True`` if ``arg`` is encodable as a value of the ABI type
             ``typ``.  Otherwise, ``False``.
         """
+        warnings.warn(
+            "abi.is_encodable() signature will change in version 4.0.0",
+            category=FutureWarning,
+        )
+
         encoder = self._registry.get_encoder(typ)
 
         try:
@@ -146,6 +164,12 @@ class ABIDecoder(BaseABICoder):
         :returns: The equivalent python value of the ABI value represented in
             ``data``.
         """
+        warnings.warn(
+            "abi.decode_single() is deprecated and will be removed in version 4.0.0 in favor of "
+            "abi.decode()",
+            category=DeprecationWarning,
+        )
+
         if not is_bytes(data):
             raise TypeError("The `data` value must be of bytes type.  Got {0}".format(type(data)))
 
@@ -167,6 +191,12 @@ class ABIDecoder(BaseABICoder):
         :returns: A tuple of equivalent python values for the ABI values
             represented in ``data``.
         """
+        warnings.warn(
+            "abi.decode_abi() is deprecated and will be removed in version 4.0.0 in favor of "
+            "abi.decode()",
+            category=DeprecationWarning
+        )
+
         if not is_bytes(data):
             raise TypeError("The `data` value must be of bytes type.  Got {0}".format(type(data)))
 
